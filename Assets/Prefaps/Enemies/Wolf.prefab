@@ -419,7 +419,7 @@ GameObject:
   - component: {fileID: 8756454996192752164}
   - component: {fileID: 4285325338876200741}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Wolf
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -457,6 +457,7 @@ MonoBehaviour:
   Health: 30
   MaxHealth: 30
   Spawner: {fileID: 0}
+  CardPrefap: {fileID: 7818801628628638443, guid: 9688b7f39d09ab44eb00acf5afeb12e3, type: 3}
 --- !u!114 &428745317617970420
 MonoBehaviour:
   m_ObjectHideFlags: 0
