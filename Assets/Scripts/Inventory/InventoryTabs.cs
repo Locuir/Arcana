@@ -1,36 +1,82 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventoryTabs : MonoBehaviour
 {
+    [Header("Pages")]
     public GameObject CardsPanel;
     public GameObject ItemsPanel;
+    public GameObject StatsPanel;
 
+    [Header("Inventory")]
+    public InventoryUI inventoryUI;
+    public PlayerStatsUI playerStatsUI;
+    private GameObject CurrentPage;
 
-    public Image CardsButtonImage;
-    public Image ItemsButtonImage;
+    private void Start()
+    {
+        CardsPanel.SetActive(false);
+        ItemsPanel.SetActive(false);
+        StatsPanel.SetActive(false);
 
-
-    public Sprite SelectedSprite;
-    public Sprite NormalSprite;
-
+        CurrentPage = ItemsPanel;
+    }
 
     public void ShowCards()
     {
-        CardsPanel.SetActive(true);
-        ItemsPanel.SetActive(false);
-
-        CardsButtonImage.sprite = SelectedSprite;
-        ItemsButtonImage.sprite = NormalSprite;
-
+        OpenPage(CardsPanel);
     }
 
     public void ShowItems()
     {
-        CardsPanel.SetActive(false);
-        ItemsPanel.SetActive(true);
+        OpenPage(ItemsPanel);
+    }
 
-        CardsButtonImage.sprite = NormalSprite;
-        ItemsButtonImage.sprite = SelectedSprite;
+    public void ShowStats()
+    {
+        OpenPage(StatsPanel);
+
+        if (playerStatsUI != null)
+            playerStatsUI.Refresh();
+    }
+
+    private void OpenPage(GameObject page)
+    {
+        if (page == null)
+            return;
+
+        if (CurrentPage != null)
+            CurrentPage.SetActive(false);
+
+        page.SetActive(true);
+
+        CurrentPage = page;
+
+        if (!InventoryIsOpen())
+        {
+            inventoryUI.OpenInventory();
+        }
+    }
+
+    public void ShowCurrentPage()
+    {
+        if (CurrentPage == null)
+        {
+            OpenPage(ItemsPanel);
+            return;
+        }
+
+        CurrentPage.SetActive(true);
+    }
+
+    public void HideCurrentPage()
+    {
+        if (CurrentPage != null)
+            CurrentPage.SetActive(false);
+    }
+
+    private bool InventoryIsOpen()
+    {
+        return inventoryUI != null &&
+               inventoryUI.InventoryPanel.activeSelf;
     }
 }

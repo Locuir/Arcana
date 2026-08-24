@@ -1,67 +1,105 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponDamge : MonoBehaviour
+public class WeaponDamage : MonoBehaviour
 {
-
-
-    HashSet<EnemyStatus> Enemieshit = new HashSet<EnemyStatus>();
-
-
-    void Start()
-    {
-        
-    }
-
     public Collider WeaponHitBox;
+    public WeaponData WeaponData;
 
-    // Update is called once per frame
-    void Update()
+    private HashSet<EnemyStatus> EnemiesHit =
+        new HashSet<EnemyStatus>();
+
+    private PlayerStats playerStats;
+
+    private void Awake()
     {
+        if (WeaponHitBox != null)
+            WeaponHitBox.enabled = false;
 
-
-
-        
+        playerStats = FindFirstObjectByType<PlayerStats>();
     }
-
-
 
     public void EnableHitBox()
     {
-        Enemieshit.Clear();
-        WeaponHitBox.enabled = true;
+        EnemiesHit.Clear();
 
-
+        if (WeaponHitBox != null)
+            WeaponHitBox.enabled = true;
     }
+
     public void DisableHitBox()
     {
-
-        WeaponHitBox.enabled = false;
-
-
+        if (WeaponHitBox != null)
+            WeaponHitBox.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-            //Debug.Log("Touched: " + other.name);
-            //Debug.Log("Tag = " + other.tag);
+        TryDealDamage(other);
+    }
 
-            if (!other.GetComponentInParent<EnemyStatus>())
+    private void OnTriggerStay(Collider other)
+    {
+        if (WeaponHitBox != null && WeaponHitBox.enabled)
+            TryDealDamage(other);
+    }
+
+    private void TryDealDamage(Collider other)
+    {
+        EnemyStatus enemy =
+            other.GetComponentInParent<EnemyStatus>();
+
+        if (enemy == null)
             return;
 
-            EnemyStatus enemy = other.GetComponentInParent<EnemyStatus>();
+        if (EnemiesHit.Contains(enemy))
+            return;
 
-        if (enemy != null && !Enemieshit.Contains(enemy))
+        EnemiesHit.Add(enemy);
+
+        int finalDamage = CalculateDamage();
+
+        enemy.TakeDamage(finalDamage);
+    }
+
+    private int CalculateDamage()
+    {
+        if (WeaponData == null)
         {
-            Enemieshit.Add(enemy);
-            enemy.TakeDamage(10);
-
+            Debug.LogError("WeaponData is NULL!");
+            return 0;
         }
 
+        if (playerStats == null)
+        {
+            Debug.LogError("PlayerStats not found!");
+            return WeaponData.damage;
+        }
 
+        float strengthDamage =
+            playerStats.Strength *
+            WeaponData.strengthScaling;
+
+        float dexterityDamage =
+            playerStats.Dexterity *
+            WeaponData.dexterityScaling;
+
+        int damage = Mathf.RoundToInt(
+            WeaponData.damage +
+            strengthDamage +
+            dexterityDamage
+        );
+
+        // Critical Strike
+        if (Random.Range(0f, 100f) < playerStats.CritChacne)
+        {
+            damage *= 2;
+
+            Debug.Log(
+                "CRITICAL HIT! Damage = " + damage
+            );
+        }
+
+        return damage;
     }
-
-    }
-
-
-
+}

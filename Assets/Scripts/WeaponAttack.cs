@@ -9,7 +9,6 @@ public class WeaponAttack : MonoBehaviour
     public float AFKTime = 60.0f;
     float timer;
     bool CanCombo;
-    public WeaponDamge CurruntWeapon;
 
 
 
@@ -101,30 +100,7 @@ public class WeaponAttack : MonoBehaviour
         CanCombo = true;
     }
 
-    public void DisableCombo()
-    {
 
-
-        CanCombo = false;
-
-
-    }
-
-
-    public void EnableCollider()
-    {
-        CurruntWeapon.EnableHitBox();
-
-
-
-    }
-
-
-    public void DisableCollider()
-    {
-        CurruntWeapon.DisableHitBox();
-
-    }
     
         
     

@@ -4,32 +4,26 @@ public class CardPickup : MonoBehaviour
 {
     public ItemData Item;
 
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
+        if (!other.CompareTag("Player"))
+            return;
 
+        Debug.Log(
+            "CARD PICKUP | " +
+            Item.ItemName +
+            " | TYPE: " +
+            Item.Type +
+            " | ID: " +
+            Item.ID
+        );
 
-            if (InventoryManger.Instance.Add(Item))
-            {
-                Destroy(gameObject);
-            }
+        bool added = InventoryManger.Instance.Add(Item);
 
-        }
+        Debug.Log("CARD ADDED: " + added);
+
+        if (added)
+            Destroy(gameObject);
     }
 
 }

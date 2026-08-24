@@ -1,34 +1,38 @@
 using UnityEngine;
-using System.Collections;
 
 public class MonsterSpawner : MonoBehaviour
 {
+    [System.Serializable]
+    public class EnemySpawnData
+    {
+        public GameObject EnemyPrefab;
+        public int Amount;
+    }
 
-    public GameObject EnemyPrefab;
-
-    public int MaxEnemies = 5;
-    public float RespawnTime = 10f;
+    public EnemySpawnData[] EnemyTypes;
 
     private int CurrentEnemies = 0;
 
-    void Start()
+    public void SpawnWave(EnemySpawnData[] waveEnemies)
     {
-        for (int i = 0; i < MaxEnemies; i++)
+        CurrentEnemies = 0;
+
+        foreach (EnemySpawnData enemyData in waveEnemies)
         {
-            SpawnEnemy();
+            for (int i = 0; i < enemyData.Amount; i++)
+            {
+                SpawnEnemy(enemyData.EnemyPrefab);
+            }
         }
     }
 
-
-    // Update is called once per frame
-    void Update()
+    void SpawnEnemy(GameObject enemyPrefab)
     {
-        
-    }
-
-    void SpawnEnemy()
-    {
-        GameObject enemy = Instantiate(EnemyPrefab, transform.position, Quaternion.identity);
+        GameObject enemy = Instantiate(
+            enemyPrefab,
+            transform.position,
+            Quaternion.identity
+        );
 
         enemy.GetComponent<EnemyStatus>().Spawner = this;
 
@@ -39,16 +43,10 @@ public class MonsterSpawner : MonoBehaviour
     {
         CurrentEnemies--;
 
-        StartCoroutine(RespawnEnemy());
-    }
-
-    IEnumerator RespawnEnemy()
-    {
-        yield return new WaitForSeconds(RespawnTime);
-
-        if (CurrentEnemies < MaxEnemies)
+        if (CurrentEnemies <= 0)
         {
-            SpawnEnemy();
+            CurrentEnemies = 0;
+            WaveManager.Instance.EnemyKilled();
         }
     }
 }

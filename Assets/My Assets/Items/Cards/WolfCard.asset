@@ -14,5 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   ID: 1
   ItemName: Wolf Card
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 64db1a1e786e9f14da733da77e59240d, type: 3}
   Description: Wolfy wolf
+  Type: 0
+  Stackable: 1
+  MaxStack: 10
+  cardType: 0
+  attackPower: 0
+  defensePower: 0
+  Rarity: 0

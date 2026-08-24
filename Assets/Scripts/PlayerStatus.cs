@@ -4,11 +4,13 @@ public class PlayerStatus : MonoBehaviour
 {
 
     public float Health;
-    public float MaxHealth = 100;
+    public PlayerStats Stats;
+    public int MaxHealth;
     bool IsDead;
 
     void Start()
     {
+        MaxHealth = Stats.HP;
         Health = MaxHealth;
     }
 

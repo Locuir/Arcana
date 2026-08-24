@@ -14,5 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   ID: 2
   ItemName: Slime Card
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 5ef60920a6408ab46903ae10893c058f, type: 3}
   Description: Slimy Slime
+  Type: 0
+  Stackable: 1
+  MaxStack: 10
+  cardType: 0
+  attackPower: 0
+  defensePower: 0
+  Rarity: 0
