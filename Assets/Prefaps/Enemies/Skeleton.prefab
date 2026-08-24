@@ -5298,7 +5298,7 @@ MonoBehaviour:
   minIdleTime: 2
   maxIdleTime: 5
   TimeBetweenAttacks: 1.13
-  SightRange: 10
+  SightRange: 270.5
   AttackRange: 2.06
   PlayerInSightRange: 0
   PlayerInAttackRange: 0

@@ -38,6 +38,8 @@ public class WaveManager : MonoBehaviour
     public int CurrentEnemies { get; private set; }
     public int MaxEnemies { get; private set; }
 
+    private bool waveCompleted;
+
     private void Awake()
     {
         Instance = this;
@@ -50,6 +52,14 @@ public class WaveManager : MonoBehaviour
 
     void StartWave()
     {
+        if (currentWave > Waves.Length)
+        {
+            Debug.Log("ALL WAVES COMPLETED!");
+            return;
+        }
+
+        waveCompleted = false;
+
         currentPhase = WavePhase.KillMonsters;
 
         WaveData wave = Waves[currentWave - 1];
@@ -63,7 +73,12 @@ public class WaveManager : MonoBehaviour
 
         CurrentEnemies = MaxEnemies;
 
-        Debug.Log("WAVE " + currentWave + " STARTED");
+        Debug.Log(
+            "WAVE " +
+            currentWave +
+            " STARTED | ENEMIES: " +
+            CurrentEnemies
+        );
 
         if (MusicManager.Instance != null)
         {
@@ -85,9 +100,7 @@ public class WaveManager : MonoBehaviour
         }
 
         MonsterSpawner.EnemySpawnData[] spawnData =
-            new MonsterSpawner.EnemySpawnData[
-                wave.Enemies.Length
-            ];
+            new MonsterSpawner.EnemySpawnData[wave.Enemies.Length];
 
         for (int i = 0; i < wave.Enemies.Length; i++)
         {
@@ -106,22 +119,36 @@ public class WaveManager : MonoBehaviour
 
     public void EnemyKilled()
     {
+        if (waveCompleted)
+            return;
+
         CurrentEnemies--;
 
-        if (CurrentEnemies <= 0)
-        {
+        if (CurrentEnemies < 0)
             CurrentEnemies = 0;
 
+        Debug.Log(
+            "ENEMY KILLED | REMAINING: " +
+            CurrentEnemies
+        );
+
+        if (CurrentEnemies == 0)
+        {
             WaveCompleted();
         }
     }
 
     public void WaveCompleted()
     {
+        if (waveCompleted)
+            return;
+
+        waveCompleted = true;
+
         Debug.Log(
-            "Wave " +
+            "WAVE " +
             currentWave +
-            " Completed!"
+            " COMPLETED!"
         );
 
         StartCoroutine(PreparePhase());
@@ -135,17 +162,14 @@ public class WaveManager : MonoBehaviour
         CurrentPhaseTime =
             prepareTime;
 
-        Debug.Log(
-            "PREPARE YOUR LOADOUT"
-        );
+        Debug.Log("PREPARE YOUR LOADOUT");
 
         if (MusicManager.Instance != null)
             MusicManager.Instance.PlayPrepare();
 
         while (CurrentPhaseTime > 0)
         {
-            CurrentPhaseTime -=
-                Time.deltaTime;
+            CurrentPhaseTime -= Time.deltaTime;
 
             yield return null;
         }
@@ -156,6 +180,11 @@ public class WaveManager : MonoBehaviour
     void NextWave()
     {
         currentWave++;
+
+        Debug.Log(
+            "NEXT WAVE → " +
+            currentWave
+        );
 
         if (currentWave > Waves.Length)
         {

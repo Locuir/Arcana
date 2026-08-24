@@ -13,13 +13,9 @@ MonoBehaviour:
   m_Name: SkeletonCard
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   ID: 3
-  ItemName: 
+  ItemName: Skeleton Card
   Icon: {fileID: 21300000, guid: 2d83101a56e015f4cbb1a1d3488ff840, type: 3}
   Description: 
   Type: 0
   Stackable: 1
   MaxStack: 10
-  cardType: 0
-  attackPower: 0
-  defensePower: 0
-  Rarity: 0

@@ -1,10 +1,10 @@
+using TMPro;
 using UnityEngine;
 
 public class LevelUpSystem : MonoBehaviour
 {
     public PlayerStats playerStats;
     public PlayerStatsUI playerStatsUI;
-
     public void UpgradeVigor()
     {
         if (!CanUpgrade())

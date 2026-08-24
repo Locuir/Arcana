@@ -60,10 +60,15 @@ public class EnemyStatus : MonoBehaviour
             Debug.Log("Dead");
             if (DeathSound != null && AudioSource != null)
                 AudioSource.PlayOneShot(DeathSound);
+            if (WaveManager.Instance != null)
+            {
+                WaveManager.Instance.EnemyKilled();
+            }
 
             if (HaveDeathAnimation(enemyType))
             {
                 animator.SetTrigger("Death");
+
 
                 DeathParticles.transform.SetParent(null);
                 DeathParticles.Play();

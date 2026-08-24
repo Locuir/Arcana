@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,10 @@ public class PlayerStats : MonoBehaviour
     [Header("Level Rewards")]
     public WeaponData Level3Weapon;
     public WeaponData Level5Weapon;
+    public WeaponData Level10Weapon;
+    public WeaponData Level15Weapon;
+    [Header("Starting Weapon")]
+    public WeaponData StartingWeapon;
 
     [Header("Stats")]
     public int Vigor { get; private set; } = 1;
@@ -39,6 +44,7 @@ public class PlayerStats : MonoBehaviour
     public float CritChacne;
     public int MagicDef;
     public float AttackSpeed;
+    public TMP_Text LevelText;
 
     private bool IsDead;
 
@@ -46,8 +52,12 @@ public class PlayerStats : MonoBehaviour
     {
         CalculateDrivedStats();
         CurrentHP = MaxHP;
-    }
 
+        if (StartingWeapon != null && InventoryManger.Instance != null)
+        {
+            InventoryManger.Instance.AddWeapon(StartingWeapon);
+        }
+    }
     public void CalculateDrivedStats()
     {
         MaxHP = 50 + (Vigor * 15);
@@ -145,6 +155,7 @@ public class PlayerStats : MonoBehaviour
     {
         Level++;
         AvailableStatPoints++;
+        LevelText.text = Level.ToString();
 
         RequiredEXP =
             Mathf.RoundToInt(RequiredEXP * 1.25f);
@@ -159,6 +170,10 @@ public class PlayerStats : MonoBehaviour
             GiveLevelReward(Level3Weapon);
 
         if (Level == 5)
+            GiveLevelReward(Level5Weapon);
+        if (Level == 10)
+            GiveLevelReward(Level5Weapon);
+        if (Level == 15)
             GiveLevelReward(Level5Weapon);
     }
 

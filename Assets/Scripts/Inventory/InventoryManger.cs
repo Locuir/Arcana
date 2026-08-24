@@ -9,6 +9,13 @@ public class InventoryManger : MonoBehaviour
 
     public InventorySlotData[] Slots;
 
+    [Header("Card XP")]
+    public int CardsRequired = 10;
+    public int WolfXP = 100;
+    public int GoblinXP = 100;
+    public int SkeletonXP = 100;
+    public int SlimeXP = 100;
+
     private const int ItemStartIndex = 0;
     private const int ItemEndIndex = 16;
 
@@ -57,7 +64,12 @@ public class InventoryManger : MonoBehaviour
         if (item.Stackable)
         {
             if (TryStack(item, startIndex, endIndex))
+            {
+                if (item.Type == ItemType.Card)
+                    CheckCards();
+
                 return true;
+            }
         }
 
         for (int i = startIndex; i < endIndex; i++)
@@ -68,6 +80,10 @@ public class InventoryManger : MonoBehaviour
                 Slots[i].Amount = 1;
 
                 RefreshInventory();
+
+                if (item.Type == ItemType.Card)
+                    CheckCards();
+
                 return true;
             }
         }
@@ -97,10 +113,113 @@ public class InventoryManger : MonoBehaviour
             Slots[i].Amount++;
 
             RefreshInventory();
+
             return true;
         }
 
         return false;
+    }
+
+    private void CheckCards()
+    {
+        CheckCard("Wolf Card", WolfXP);
+        CheckCard("Goblin Card", GoblinXP);
+        CheckCard("Skeleton Card", SkeletonXP);
+        CheckCard("Slime Card", SlimeXP);
+    }
+
+    private void CheckCard(string cardName, int xp)
+    {
+        int total = 0;
+
+        for (int i = CardStartIndex; i < CardEndIndex; i++)
+        {
+            if (Slots[i] == null)
+                continue;
+
+            if (Slots[i].Item == null)
+                continue;
+
+            if (Slots[i].Item.ItemName != cardName)
+                continue;
+
+            total += Slots[i].Amount;
+        }
+
+        Debug.Log(
+            "CARD CHECK → " +
+            cardName +
+            " = " +
+            total
+        );
+
+        int sets = total / CardsRequired;
+
+        if (sets <= 0)
+            return;
+
+        int removeAmount = sets * CardsRequired;
+
+        RemoveCards(cardName, removeAmount);
+
+        PlayerStats playerStats =
+            FindObjectOfType<PlayerStats>();
+
+        if (playerStats == null)
+        {
+            Debug.LogError("CARD XP → PLAYER STATS NOT FOUND!");
+            return;
+        }
+
+        int totalXP = sets * xp;
+
+        playerStats.AddCardXP(totalXP);
+
+        Debug.Log(
+            "CARD CONVERTED → " +
+            cardName +
+            " | REMOVED: " +
+            removeAmount +
+            " | XP: " +
+            totalXP
+        );
+
+        RefreshInventory();
+    }
+
+    private void RemoveCards(string cardName, int amount)
+    {
+        int remaining = amount;
+
+        for (int i = CardStartIndex; i < CardEndIndex; i++)
+        {
+            if (remaining <= 0)
+                break;
+
+            if (Slots[i] == null)
+                continue;
+
+            if (Slots[i].Item == null)
+                continue;
+
+            if (Slots[i].Item.ItemName != cardName)
+                continue;
+
+            int remove =
+                Mathf.Min(
+                    Slots[i].Amount,
+                    remaining
+                );
+
+            Slots[i].Amount -= remove;
+            remaining -= remove;
+
+            if (Slots[i].Amount <= 0)
+            {
+                Slots[i].Amount = 0;
+                Slots[i].Item = null;
+            }
+        }
     }
 
     public bool ContainsWeapon(WeaponData weapon)
@@ -139,6 +258,7 @@ public class InventoryManger : MonoBehaviour
             Slots[i].Amount = 0;
 
             RefreshInventory();
+
             return true;
         }
 
@@ -152,10 +272,12 @@ public class InventoryManger : MonoBehaviour
 
         return Add(weapon);
     }
+
     public void RefreshShopInventory()
     {
         RefreshInventory();
     }
+
     public void RefreshInventory()
     {
         if (InventoryUI.Instance != null)

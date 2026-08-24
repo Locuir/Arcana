@@ -14,6 +14,18 @@ public class CardCollectionSystem : MonoBehaviour
 
     public void CheckCards()
     {
+        if (inventory == null)
+            inventory = InventoryManger.Instance;
+
+        if (playerStats == null)
+            playerStats = FindObjectOfType<PlayerStats>();
+
+        if (inventory == null || playerStats == null)
+        {
+            Debug.LogError("CARD COLLECTION → Missing Inventory or PlayerStats");
+            return;
+        }
+
         CheckEnemyCards("Wolf", WolfXP);
         CheckEnemyCards("Goblin", GoblinXP);
         CheckEnemyCards("Skeleton", SkeletonXP);
@@ -53,7 +65,7 @@ public class CardCollectionSystem : MonoBehaviour
         Debug.Log(
             "CARD SET → " +
             cardName +
-            " | REMOVED: " +
+            " | CARDS: " +
             amountToRemove +
             " | XP: " +
             totalXP
@@ -91,5 +103,8 @@ public class CardCollectionSystem : MonoBehaviour
                 slot.Item = null;
             }
         }
+
+        if (InventoryUI.Instance != null)
+            InventoryUI.Instance.Refresh();
     }
 }
