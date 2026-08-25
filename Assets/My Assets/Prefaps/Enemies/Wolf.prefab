@@ -5394,8 +5394,8 @@ MonoBehaviour:
   enemyAi: {fileID: 0}
   DeathSound: {fileID: 8300000, guid: 30b7edd39a68c62448d0a140dbf99ed3, type: 3}
   AudioSource: {fileID: 4141209585294565126}
-  Health: 30
-  MaxHealth: 30
+  Health: 35
+  MaxHealth: 35
   Spawner: {fileID: 0}
   CardPrefap: {fileID: 7818801628628638443, guid: 9688b7f39d09ab44eb00acf5afeb12e3, type: 3}
   DeathDelay: 1

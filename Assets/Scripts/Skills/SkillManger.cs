@@ -7,12 +7,18 @@ public class SkillManager : MonoBehaviour
 
     [Header("Skill Logic")]
     public Dash dash;
+    public PowerUp powerUp;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
             UseSkill(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UseSkill(1);
         }
     }
 
@@ -31,9 +37,14 @@ public class SkillManager : MonoBehaviour
             case 0:
 
                 if (dash != null)
-                {
                     dash.Activate();
-                }
+
+                break;
+
+            case 1:
+
+                if (powerUp != null)
+                    powerUp.Activate();
 
                 break;
         }

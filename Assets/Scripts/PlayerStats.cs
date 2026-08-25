@@ -15,6 +15,7 @@ public class PlayerStats : MonoBehaviour
     public WeaponData Level5Weapon;
     public WeaponData Level10Weapon;
     public WeaponData Level15Weapon;
+
     [Header("Starting Weapon")]
     public WeaponData StartingWeapon;
 
@@ -44,9 +45,13 @@ public class PlayerStats : MonoBehaviour
     public float CritChacne;
     public int MagicDef;
     public float AttackSpeed;
+
     public TMP_Text LevelText;
 
     private bool IsDead;
+
+    private int TemporaryStrengthBonus;
+    private int TemporaryVigorBonus;
 
     private void Awake()
     {
@@ -58,16 +63,68 @@ public class PlayerStats : MonoBehaviour
             InventoryManger.Instance.AddWeapon(StartingWeapon);
         }
     }
+
     public void CalculateDrivedStats()
     {
-        MaxHP = 50 + (Vigor * 15);
+        MaxHP =
+            50 +
+            ((Vigor + TemporaryVigorBonus) * 15);
 
-        AttackPower = 20 + (Strength * 5);
-        SkillPower = 20 + (Faith * 5);
-        PhysicalDef = 10 + (Vitality * 3);
-        Stamina = 100 + (Endurance * 10);
-        CritChacne = 5 + ((float)Dexterity * 0.5f) + ((float)Luck * 0.5f);
-        AttackSpeed = 1 + (Dexterity * 0.01f);
+        AttackPower =
+            20 +
+            ((Strength + TemporaryStrengthBonus) * 5);
+
+        SkillPower =
+            20 +
+            (Faith * 5);
+
+        PhysicalDef =
+            10 +
+            (Vitality * 3);
+
+        Stamina =
+            100 +
+            (Endurance * 10);
+
+        CritChacne =
+            5 +
+            ((float)Dexterity * 0.5f) +
+            ((float)Luck * 0.5f);
+
+        AttackSpeed =
+            1 +
+            (Dexterity * 0.01f);
+
+        if (CurrentHP > MaxHP)
+            CurrentHP = MaxHP;
+    }
+
+    public void ActivateTemporaryStats(
+        int strengthBonus,
+        int vigorBonus
+    )
+    {
+        int oldMaxHP = MaxHP;
+
+        TemporaryStrengthBonus = strengthBonus;
+        TemporaryVigorBonus = vigorBonus;
+
+        CalculateDrivedStats();
+
+        int hpIncrease = MaxHP - oldMaxHP;
+
+        CurrentHP += hpIncrease;
+
+        if (CurrentHP > MaxHP)
+            CurrentHP = MaxHP;
+    }
+
+    public void RemoveTemporaryStats()
+    {
+        TemporaryStrengthBonus = 0;
+        TemporaryVigorBonus = 0;
+
+        CalculateDrivedStats();
 
         if (CurrentHP > MaxHP)
             CurrentHP = MaxHP;
@@ -154,27 +211,42 @@ public class PlayerStats : MonoBehaviour
     private void LevelUp()
     {
         Level++;
+
+        NotificationManager.Instance.Show(
+            "LEVEL UP!",
+            "You reached Level " + Level
+        );
+
         AvailableStatPoints++;
-        LevelText.text = Level.ToString();
+
+        LevelText.text =
+            Level.ToString();
 
         RequiredEXP =
-            Mathf.RoundToInt(RequiredEXP * 1.25f);
+            Mathf.RoundToInt(
+                RequiredEXP * 1.25f
+            );
 
         CalculateDrivedStats();
 
         CurrentHP = MaxHP;
 
-        Debug.Log("LEVEL UP! Level: " + Level);
+        Debug.Log(
+            "LEVEL UP! Level: " +
+            Level
+        );
 
         if (Level == 3)
             GiveLevelReward(Level3Weapon);
 
         if (Level == 5)
             GiveLevelReward(Level5Weapon);
+
         if (Level == 10)
-            GiveLevelReward(Level5Weapon);
+            GiveLevelReward(Level10Weapon);
+
         if (Level == 15)
-            GiveLevelReward(Level5Weapon);
+            GiveLevelReward(Level15Weapon);
     }
 
     private void GiveLevelReward(WeaponData weapon)

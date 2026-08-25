@@ -107,13 +107,12 @@ public class PlayerStatus : MonoBehaviour
 
         if (Health <= 0)
         {
+            RunManager.Instance.EndRun();
             IsDead = true;
 
             Debug.Log("PLAYER DEAD → RESTARTING");
 
-            SceneManager.LoadScene(
-                SceneManager.GetActiveScene().buildIndex
-            );
+
         }
     }
 }

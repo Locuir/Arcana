@@ -3,7 +3,9 @@ using System.Collections;
 
 public class WaveManager : MonoBehaviour
 {
+    public System.Action WaveCompletedEvent;
     [System.Serializable]
+
     public class WaveEnemy
     {
         public GameObject EnemyPrefab;
@@ -33,6 +35,7 @@ public class WaveManager : MonoBehaviour
     public float prepareTime = 30f;
 
     public WavePhase currentPhase;
+    public PlayerStats stats;
 
     public float CurrentPhaseTime { get; private set; }
     public int CurrentEnemies { get; private set; }
@@ -150,7 +153,7 @@ public class WaveManager : MonoBehaviour
             currentWave +
             " COMPLETED!"
         );
-
+        stats.AddEXP(300);
         StartCoroutine(PreparePhase());
     }
 
@@ -179,6 +182,10 @@ public class WaveManager : MonoBehaviour
 
     void NextWave()
     {
+        RunManager.Instance.WaveCompleted();
+
+        WaveCompletedEvent?.Invoke();
+
         currentWave++;
 
         Debug.Log(
