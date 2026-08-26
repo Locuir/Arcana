@@ -10,7 +10,8 @@ public class GameOverUI : MonoBehaviour
     public CanvasGroup WavesCanvasGroup;
     public CanvasGroup TimeCanvasGroup;
     public CanvasGroup RatingCanvasGroup;
-
+    public AudioSource audioSource;
+    public AudioClip audioClip;
     public TMP_Text LevelText;
     public TMP_Text WavesText;
     public TMP_Text TimeText;
@@ -55,19 +56,28 @@ public class GameOverUI : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(StatsDelay);
 
+        audioSource.PlayOneShot(audioClip);
         yield return StartCoroutine(FadeIn(LevelCanvasGroup, StatFadeDuration));
+        
 
         yield return new WaitForSecondsRealtime(BetweenStatsDelay);
 
+        audioSource.PlayOneShot(audioClip);
         yield return StartCoroutine(FadeIn(WavesCanvasGroup, StatFadeDuration));
+        
 
         yield return new WaitForSecondsRealtime(BetweenStatsDelay);
 
+        audioSource.PlayOneShot(audioClip);
         yield return StartCoroutine(FadeIn(TimeCanvasGroup, StatFadeDuration));
+       
 
         yield return new WaitForSecondsRealtime(BetweenStatsDelay);
 
+
+        audioSource.PlayOneShot(audioClip);
         yield return StartCoroutine(FadeIn(RatingCanvasGroup, StatFadeDuration));
+        
     }
 
     private IEnumerator FadeIn(CanvasGroup canvasGroup, float duration)
@@ -110,15 +120,5 @@ public class GameOverUI : MonoBehaviour
         return "F";
     }
 
-    public void RestartGame()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Gameplay");
-    }
 
-    public void MainMenu()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
-    }
 }

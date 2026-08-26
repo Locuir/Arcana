@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b8493d015929f4089608449af1676b, type: 3}
   m_Name: PowerUp
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillName: PowerUp
+  SkillName: PowerUp
   icon: {fileID: 21300000, guid: d508aefa6bff56f4ab223ced3cd243d3, type: 3}
   skillID: 1
   unlocked: 1
+  Description: Awakens the Realm of Power for a fleeting moment, filling your body
+    with immense strength and pushing your abilities beyond their limits.
   requiredWeapon: {fileID: 0}
   staminaCost: 50
   cooldown: 120
+  key: 117

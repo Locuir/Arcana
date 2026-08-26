@@ -1,8 +1,0 @@
-cd /d H:\Programes\New folder (11)\My project (2)
-git clone
-git status 
-git add . 
-git commit -m "..." 
-git pull 
-git log
-git push

@@ -15,6 +15,9 @@ public class PlayerStatus : MonoBehaviour
     public WeaponData StartingWeapon;
     private bool IsDead;
 
+    public bool IsInvulnerable { get; private set; }
+
+
 
     private void Start()
     {
@@ -38,6 +41,16 @@ public class PlayerStatus : MonoBehaviour
         RegenerateHealth();
     }
 
+
+    public void SetInvulnerable(bool value)
+    {
+        IsInvulnerable = value;
+
+        Debug.Log(
+            "PLAYER INVULNERABILITY → " +
+            (value ? "ON" : "OFF")
+        );
+    }
     private void RegenerateHealth()
     {
         if (IsDead)
@@ -60,6 +73,9 @@ public class PlayerStatus : MonoBehaviour
     public void TakeDamage(int DamageTaken)
     {
         if (IsDead)
+            return;
+
+        if (IsInvulnerable)
             return;
 
         if (DamageTaken <= 0)

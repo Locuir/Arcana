@@ -19,11 +19,9 @@ public class PlayerCombat : MonoBehaviour
 
     public void PlaySlashEffect()
     {
-        Debug.Log("SLASH EFFECT EVENT");
 
         if (currentWeaponDamage == null)
         {
-            Debug.LogError("currentWeaponDamage = NULL");
             return;
         }
 
@@ -32,7 +30,6 @@ public class PlayerCombat : MonoBehaviour
 
         if (effect == null)
         {
-            Debug.LogError("WeaponSlashEffect NOT FOUND");
             return;
         }
 
@@ -40,7 +37,6 @@ public class PlayerCombat : MonoBehaviour
     }
     public void ComboCheck()
     {
-        Debug.Log("PLAYER COMBAT → COMBO CHECK");
         playerMovement.ComboCheck();
     }
 
@@ -111,10 +107,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void EndBowAttack()
     {
-        Debug.Log("END BOW ATTACK → IsAiming FALSE");
 
         playerMovement.animator.SetBool("IsAiming", false);
 
-        Debug.Log("IsAiming = " + playerMovement.animator.GetBool("IsAiming"));
     }
 }

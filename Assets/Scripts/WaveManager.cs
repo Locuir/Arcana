@@ -4,8 +4,8 @@ using System.Collections;
 public class WaveManager : MonoBehaviour
 {
     public System.Action WaveCompletedEvent;
-    [System.Serializable]
 
+    [System.Serializable]
     public class WaveEnemy
     {
         public GameObject EnemyPrefab;
@@ -62,7 +62,6 @@ public class WaveManager : MonoBehaviour
         }
 
         waveCompleted = false;
-
         currentPhase = WavePhase.KillMonsters;
 
         WaveData wave = Waves[currentWave - 1];
@@ -102,22 +101,7 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
-        MonsterSpawner.EnemySpawnData[] spawnData =
-            new MonsterSpawner.EnemySpawnData[wave.Enemies.Length];
-
-        for (int i = 0; i < wave.Enemies.Length; i++)
-        {
-            spawnData[i] =
-                new MonsterSpawner.EnemySpawnData();
-
-            spawnData[i].EnemyPrefab =
-                wave.Enemies[i].EnemyPrefab;
-
-            spawnData[i].Amount =
-                wave.Enemies[i].Amount;
-        }
-
-        spawner.SpawnWave(spawnData);
+        spawner.SpawnWave(wave.Enemies);
     }
 
     public void EnemyKilled()
@@ -153,7 +137,9 @@ public class WaveManager : MonoBehaviour
             currentWave +
             " COMPLETED!"
         );
+
         stats.AddEXP(300);
+
         StartCoroutine(PreparePhase());
     }
 

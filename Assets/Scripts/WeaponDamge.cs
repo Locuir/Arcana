@@ -5,7 +5,9 @@ public class WeaponDamage : MonoBehaviour
 {
     public Collider WeaponHitBox;
     public WeaponData WeaponData;
-
+    private Vampirism vampirism;
+    private MadnessOfCrit madnessOfCrit;
+    private Execute execute;
     private HashSet<EnemyStatus> EnemiesHit =
         new HashSet<EnemyStatus>();
 
@@ -17,6 +19,9 @@ public class WeaponDamage : MonoBehaviour
             WeaponHitBox.enabled = false;
 
         playerStats = FindFirstObjectByType<PlayerStats>();
+        vampirism = FindFirstObjectByType<Vampirism>();
+        execute = FindFirstObjectByType<Execute>();
+        madnessOfCrit = FindFirstObjectByType<MadnessOfCrit>();
     }
 
     public void EnableHitBox()
@@ -59,20 +64,30 @@ public class WeaponDamage : MonoBehaviour
 
         int finalDamage = CalculateDamage();
 
+        if (execute != null)
+        {
+            if (execute.TryExecute(enemy))
+                return;
+        }
+
+
         enemy.TakeDamage(finalDamage);
+        if (vampirism != null)
+            vampirism.OnDamageDealt(finalDamage);
+
+
+
     }
 
     private int CalculateDamage()
     {
         if (WeaponData == null)
         {
-            Debug.LogError("WeaponData is NULL!");
             return 0;
         }
 
         if (playerStats == null)
         {
-            Debug.LogError("PlayerStats not found!");
             return WeaponData.damage;
         }
 
@@ -90,16 +105,27 @@ public class WeaponDamage : MonoBehaviour
             dexterityDamage
         );
 
-        // Critical Strike
-        if (Random.Range(0f, 100f) < playerStats.CritChacne)
+        damage = Mathf.RoundToInt(
+            damage * playerStats.DamageMultiplier
+        );
+
+        bool guaranteedCrit =
+            madnessOfCrit != null &&
+            madnessOfCrit.IsCritGuaranteed();
+
+        bool normalCrit =
+            Random.Range(0f, 100f) < playerStats.CritChacne;
+
+        if (guaranteedCrit || normalCrit)
         {
             damage *= 2;
 
             Debug.Log(
-                "CRITICAL HIT! Damage = " + damage
+                guaranteedCrit
+                    ? "MADNESS OF CRIT → GUARANTEED CRITICAL! Damage = " + damage
+                    : "CRITICAL HIT! Damage = " + damage
             );
         }
-
         return damage;
     }
 }

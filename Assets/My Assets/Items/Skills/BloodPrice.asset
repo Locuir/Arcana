@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b8493d015929f4089608449af1676b, type: 3}
+  m_Name: BloodPrice
+  m_EditorClassIdentifier: Assembly-CSharp::SkillData
+  SkillName: BloodPrice
+  icon: {fileID: 21300000, guid: d20a2f999c7c41c4cbfb51676b96f06d, type: 3}
+  skillID: 8
+  unlocked: 1
+  Description: Sacrifice 25% of your health to double your damage for a short time.
+  requiredWeapon: {fileID: 0}
+  staminaCost: 0
+  cooldown: 60
+  key: 108

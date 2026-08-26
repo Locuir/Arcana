@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b8493d015929f4089608449af1676b, type: 3}
   m_Name: DashSkill
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillName: Dash
+  SkillName: Dash
   icon: {fileID: 21300000, guid: d10c1221738eaa24a87ae6791ffd5e55, type: 3}
   skillID: 0
   unlocked: 1
+  Description: Open the Realm of Speed for a fleeting moment, allowing you to surge
+    forward into danger or out of its grasp.
   requiredWeapon: {fileID: 0}
   staminaCost: 20
-  cooldown: 2
+  cooldown: 10
+  key: 121

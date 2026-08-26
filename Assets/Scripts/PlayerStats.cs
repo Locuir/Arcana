@@ -53,6 +53,8 @@ public class PlayerStats : MonoBehaviour
     private int TemporaryStrengthBonus;
     private int TemporaryVigorBonus;
 
+    public float DamageMultiplier { get; private set; } = 1f;
+
     private void Awake()
     {
         CalculateDrivedStats();
@@ -63,7 +65,15 @@ public class PlayerStats : MonoBehaviour
             InventoryManger.Instance.AddWeapon(StartingWeapon);
         }
     }
+    public void SetDamageMultiplier(float multiplier)
+    {
+        DamageMultiplier = multiplier;
+    }
 
+    public void ResetDamageMultiplier()
+    {
+        DamageMultiplier = 1f;
+    }
     public void CalculateDrivedStats()
     {
         MaxHP =
@@ -128,6 +138,20 @@ public class PlayerStats : MonoBehaviour
 
         if (CurrentHP > MaxHP)
             CurrentHP = MaxHP;
+    }
+
+    public void LoseHealth(int amount)
+    {
+        if (IsDead)
+            return;
+
+        if (amount <= 0)
+            return;
+
+        CurrentHP -= amount;
+
+        if (CurrentHP < 0)
+            CurrentHP = 0;
     }
 
     public void TakeDamage(int damage)

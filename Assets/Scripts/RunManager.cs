@@ -6,7 +6,7 @@ public class RunManager : MonoBehaviour
 
     public float SurvivalTime { get; private set; }
     public int WavesSurvived { get; private set; }
-
+    public PlayerStats stats;
     private bool runActive = true;
 
 
@@ -42,7 +42,7 @@ public class RunManager : MonoBehaviour
 
         runActive = false;
 
-        FinalLevel = 1;
+        FinalLevel = stats.Level;
         FinalWaves = WavesSurvived;
         FinalTime = SurvivalTime;
 

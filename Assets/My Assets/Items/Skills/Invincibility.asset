@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b8493d015929f4089608449af1676b, type: 3}
+  m_Name: Invincibility
+  m_EditorClassIdentifier: Assembly-CSharp::SkillData
+  SkillName: Invincibility
+  icon: {fileID: 21300000, guid: 5abb7729882032d4fb64da9c9c2fb0c8, type: 3}
+  skillID: 3
+  unlocked: 1
+  Description: Become completely immune to damage for a short period of time, giving
+    you a chance to escape danger or turn the fight in your favor.
+  requiredWeapon: {fileID: 0}
+  staminaCost: 0
+  cooldown: 100
+  key: 111

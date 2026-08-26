@@ -33,19 +33,16 @@ public class InventoryDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (Slot == null)
         {
-            Debug.LogError("[DRAG ERROR] Slot is NULL");
             return;
         }
 
         if (Slot.CurrentSlot == null)
         {
-            Debug.LogError("[DRAG ERROR] CurrentSlot is NULL");
             return;
         }
 
         if (Slot.CurrentSlot.Item == null)
         {
-            Debug.LogError("[DRAG ERROR] CurrentSlot.Item is NULL");
             return;
         }
 

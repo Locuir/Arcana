@@ -18,13 +18,13 @@ public class Dash : MonoBehaviour
     public Animator animator;
 
     [Header("Effect")]
-    public ParticleSystem dashEffect;
-    public TrailRenderer dashTrail;
+    public TrailRenderer[] dashTrails;
+    public AudioSource dashAudio;
 
     private bool isDashing;
     private float cooldownTimer;
 
-    void Start()
+    private void Start()
     {
         if (characterController == null)
             characterController = GetComponentInParent<CharacterController>();
@@ -34,9 +34,11 @@ public class Dash : MonoBehaviour
 
         if (staminaSystem == null)
             staminaSystem = GetComponentInParent<StaminaSystem>();
+
+        SetTrails(false);
     }
 
-    void Update()
+    private void Update()
     {
         if (cooldownTimer > 0f)
             cooldownTimer -= Time.deltaTime;
@@ -83,11 +85,10 @@ public class Dash : MonoBehaviour
 
         yield return new WaitForSeconds(dashDelay);
 
-        if (dashEffect != null)
-            dashEffect.Play();
+        SetTrails(true);
 
-        if (dashTrail != null)
-            dashTrail.emitting = true;
+        if (dashAudio != null)
+            dashAudio.Play();
 
         float elapsed = 0f;
 
@@ -105,10 +106,21 @@ public class Dash : MonoBehaviour
             yield return null;
         }
 
-        if (dashTrail != null)
-            dashTrail.emitting = false;
+        SetTrails(false);
 
         isDashing = false;
+    }
+
+    private void SetTrails(bool state)
+    {
+        if (dashTrails == null)
+            return;
+
+        foreach (TrailRenderer trail in dashTrails)
+        {
+            if (trail != null)
+                trail.emitting = state;
+        }
     }
 
     public bool IsDashing()
