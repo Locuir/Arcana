@@ -51,6 +51,7 @@ Players can invest points into seven core attributes:
 | Luck | Improves critical chance |
 | Faith | Improves skill power |
 | Vitality | Improves physical defense |
+
 Weapons scale with different attributes, allowing players to specialize their character around their preferred playstyle.
 
 #Character Controls
