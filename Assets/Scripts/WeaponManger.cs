@@ -12,6 +12,9 @@ public class WeaponManager : MonoBehaviour
     public WeaponData currentWeapon;
     public GameObject currentWeaponObject;
 
+
+
+
     public void EquipWeapon(WeaponData weapon)
     {
         if (weapon == null)

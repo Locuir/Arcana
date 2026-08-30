@@ -5391,7 +5391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
   enemyType: 1
-  enemyAi: {fileID: 0}
+  enemyAi: {fileID: 428745317617970420}
   DeathSound: {fileID: 8300000, guid: 30b7edd39a68c62448d0a140dbf99ed3, type: 3}
   AudioSource: {fileID: 4141209585294565126}
   Health: 35
@@ -5429,7 +5429,7 @@ MonoBehaviour:
   maxIdleTime: 5
   TimeBetweenAttacks: 1.13
   SightRange: 270.5
-  AttackRange: 1.85
+  AttackRange: 2.88
   PlayerInSightRange: 0
   PlayerInAttackRange: 0
 --- !u!195 &4218832615769541561
@@ -5473,7 +5473,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.58
+  m_Radius: 2.05
   m_Height: 2.02
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}

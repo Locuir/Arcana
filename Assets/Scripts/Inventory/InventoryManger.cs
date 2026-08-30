@@ -7,6 +7,9 @@ public class InventoryManger : MonoBehaviour
     [Header("Inventory")]
     public int MaxSlots = 25;
 
+    [Header("Starting Items")]
+    public ItemData[] StartingItems;
+
     public InventorySlotData[] Slots;
 
     [Header("Card XP")]
@@ -34,11 +37,25 @@ public class InventoryManger : MonoBehaviour
             return;
         }
 
-        Slots = new InventorySlotData[MaxSlots];
-
-        for (int i = 0; i < MaxSlots; i++)
+        if (Slots == null || Slots.Length != MaxSlots)
         {
-            Slots[i] = new InventorySlotData();
+            Slots = new InventorySlotData[MaxSlots];
+            for (int i = 0; i < MaxSlots; i++)
+            {
+                Slots[i] = new InventorySlotData();
+            }
+        }
+    }
+
+    private void Start()
+    {
+        if (StartingItems != null)
+        {
+            foreach (var item in StartingItems)
+            {
+                if (item != null)
+                    Add(item);
+            }
         }
     }
 
@@ -47,29 +64,15 @@ public class InventoryManger : MonoBehaviour
         if (item == null)
             return false;
 
-        int startIndex;
-        int endIndex;
+        int startIndex = (item.Type == ItemType.Card) ? CardStartIndex : ItemStartIndex;
+        int endIndex = (item.Type == ItemType.Card) ? CardEndIndex : ItemEndIndex;
 
-        if (item.Type == ItemType.Card)
+        if (item.Stackable && TryStack(item, startIndex, endIndex))
         {
-            startIndex = CardStartIndex;
-            endIndex = CardEndIndex;
-        }
-        else
-        {
-            startIndex = ItemStartIndex;
-            endIndex = ItemEndIndex;
-        }
+            if (item.Type == ItemType.Card)
+                CheckCards();
 
-        if (item.Stackable)
-        {
-            if (TryStack(item, startIndex, endIndex))
-            {
-                if (item.Type == ItemType.Card)
-                    CheckCards();
-
-                return true;
-            }
+            return true;
         }
 
         for (int i = startIndex; i < endIndex; i++)
@@ -91,10 +94,7 @@ public class InventoryManger : MonoBehaviour
         return false;
     }
 
-    private bool TryStack(
-        ItemData item,
-        int startIndex,
-        int endIndex)
+    private bool TryStack(ItemData item, int startIndex, int endIndex)
     {
         for (int i = startIndex; i < endIndex; i++)
         {
@@ -111,9 +111,7 @@ public class InventoryManger : MonoBehaviour
                 continue;
 
             Slots[i].Amount++;
-
             RefreshInventory();
-
             return true;
         }
 
@@ -134,10 +132,7 @@ public class InventoryManger : MonoBehaviour
 
         for (int i = CardStartIndex; i < CardEndIndex; i++)
         {
-            if (Slots[i] == null)
-                continue;
-
-            if (Slots[i].Item == null)
+            if (Slots[i] == null || Slots[i].Item == null)
                 continue;
 
             if (Slots[i].Item.ItemName != cardName)
@@ -146,43 +141,19 @@ public class InventoryManger : MonoBehaviour
             total += Slots[i].Amount;
         }
 
-        Debug.Log(
-            "CARD CHECK → " +
-            cardName +
-            " = " +
-            total
-        );
-
         int sets = total / CardsRequired;
-
         if (sets <= 0)
             return;
 
         int removeAmount = sets * CardsRequired;
-
         RemoveCards(cardName, removeAmount);
 
-        PlayerStats playerStats =
-            FindObjectOfType<PlayerStats>();
-
+        PlayerStats playerStats = FindObjectOfType<PlayerStats>();
         if (playerStats == null)
-        {
-            Debug.LogError("CARD XP → PLAYER STATS NOT FOUND!");
             return;
-        }
 
         int totalXP = sets * xp;
-
         playerStats.AddCardXP(totalXP);
-
-        Debug.Log(
-            "CARD CONVERTED → " +
-            cardName +
-            " | REMOVED: " +
-            removeAmount +
-            " | XP: " +
-            totalXP
-        );
 
         RefreshInventory();
     }
@@ -196,20 +167,13 @@ public class InventoryManger : MonoBehaviour
             if (remaining <= 0)
                 break;
 
-            if (Slots[i] == null)
-                continue;
-
-            if (Slots[i].Item == null)
+            if (Slots[i] == null || Slots[i].Item == null)
                 continue;
 
             if (Slots[i].Item.ItemName != cardName)
                 continue;
 
-            int remove =
-                Mathf.Min(
-                    Slots[i].Amount,
-                    remaining
-                );
+            int remove = Mathf.Min(Slots[i].Amount, remaining);
 
             Slots[i].Amount -= remove;
             remaining -= remove;
@@ -229,11 +193,7 @@ public class InventoryManger : MonoBehaviour
 
         for (int i = ItemStartIndex; i < ItemEndIndex; i++)
         {
-            if (Slots[i] == null ||
-                Slots[i].Item == null)
-                continue;
-
-            if (Slots[i].Item == weapon)
+            if (Slots[i] != null && Slots[i].Item == weapon)
                 return true;
         }
 
@@ -247,18 +207,13 @@ public class InventoryManger : MonoBehaviour
 
         for (int i = ItemStartIndex; i < ItemEndIndex; i++)
         {
-            if (Slots[i] == null ||
-                Slots[i].Item == null)
-                continue;
-
-            if (Slots[i].Item != weapon)
+            if (Slots[i] == null || Slots[i].Item != weapon)
                 continue;
 
             Slots[i].Item = null;
             Slots[i].Amount = 0;
 
             RefreshInventory();
-
             return true;
         }
 
@@ -267,9 +222,6 @@ public class InventoryManger : MonoBehaviour
 
     public bool AddWeapon(WeaponData weapon)
     {
-        if (weapon == null)
-            return false;
-
         return Add(weapon);
     }
 

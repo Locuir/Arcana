@@ -10,7 +10,6 @@ public class PlayerCombat : MonoBehaviour
     private WeaponDamage currentWeaponDamage;
     private BowWeapon currentBow;
 
-
     private void Start()
     {
         RightHandCollider.enabled = false;
@@ -19,7 +18,6 @@ public class PlayerCombat : MonoBehaviour
 
     public void PlaySlashEffect()
     {
-
         if (currentWeaponDamage == null)
         {
             return;
@@ -35,6 +33,7 @@ public class PlayerCombat : MonoBehaviour
 
         effect.PlaySlash();
     }
+
     public void ComboCheck()
     {
         playerMovement.ComboCheck();
@@ -44,10 +43,12 @@ public class PlayerCombat : MonoBehaviour
     {
         AudioManager.Instance.PlaySwordSlash();
     }
+
     public void Footstep()
     {
         AudioManager.Instance.PlayFootstep();
     }
+
     public void EndAttack()
     {
         DisableRightHandCollider();
@@ -59,6 +60,12 @@ public class PlayerCombat : MonoBehaviour
 
     public void EnableRightHandCollider()
     {
+        HandHitbox handHitbox =
+            RightHandCollider.GetComponent<HandHitbox>();
+
+        if (handHitbox != null)
+            handHitbox.ResetHits();
+
         RightHandCollider.enabled = true;
     }
 
@@ -69,6 +76,12 @@ public class PlayerCombat : MonoBehaviour
 
     public void EnableLeftHandCollider()
     {
+        HandHitbox handHitbox =
+            LeftHandCollider.GetComponent<HandHitbox>();
+
+        if (handHitbox != null)
+            handHitbox.ResetHits();
+
         LeftHandCollider.enabled = true;
     }
 
@@ -107,8 +120,6 @@ public class PlayerCombat : MonoBehaviour
 
     public void EndBowAttack()
     {
-
         playerMovement.animator.SetBool("IsAiming", false);
-
     }
 }

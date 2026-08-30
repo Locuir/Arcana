@@ -5391,16 +5391,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
   enemyType: 0
-  enemyAi: {fileID: 0}
-  DeathSound: {fileID: 8300000, guid: 005c9967814541c4e827790251fc6f4a, type: 3}
-  AudioSource: {fileID: 4261860041804720269}
+  enemyAi: {fileID: 428745317617970420}
+  bossAI: {fileID: 0}
   Health: 25
   MaxHealth: 25
+  DeathSound: {fileID: 8300000, guid: 005c9967814541c4e827790251fc6f4a, type: 3}
+  AudioSource: {fileID: 4261860041804720269}
+  animator: {fileID: 5537290999995597118}
+  DeathParticles: {fileID: 1080497966274636097}
   Spawner: {fileID: 0}
   CardPrefap: {fileID: 7818801628628638443, guid: 1e7c7c14fa14fa249a51db3a895c4834, type: 3}
   DeathDelay: 0.55
-  animator: {fileID: 5537290999995597118}
-  DeathParticles: {fileID: 1080497966274636097}
 --- !u!114 &428745317617970420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5428,8 +5429,9 @@ MonoBehaviour:
   minIdleTime: 2
   maxIdleTime: 5
   TimeBetweenAttacks: 1.28
+  AttackDamage: 5
   SightRange: 270.5
-  AttackRange: 1
+  AttackRange: 2.9
   PlayerInSightRange: 0
   PlayerInAttackRange: 0
 --- !u!195 &4218832615769541561
@@ -5473,7 +5475,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.58
+  m_Radius: 1.55
   m_Height: 2.02
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}

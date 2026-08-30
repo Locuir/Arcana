@@ -7,7 +7,7 @@ public class HandHitbox : MonoBehaviour
 
     private HashSet<EnemyStatus> EnemiesHit = new HashSet<EnemyStatus>();
 
-    private void OnEnable()
+    public void ResetHits()
     {
         EnemiesHit.Clear();
     }
@@ -21,13 +21,13 @@ public class HandHitbox : MonoBehaviour
         if (enemy == null)
             return;
 
-        Debug.Log("ENEMY FOUND: " + enemy.name);
-
         if (EnemiesHit.Contains(enemy))
             return;
 
         EnemiesHit.Add(enemy);
 
         enemy.TakeDamage(Damage);
+
+        Debug.Log("ENEMY HEALTH AFTER DAMAGE: " + enemy.Health);
     }
 }

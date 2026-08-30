@@ -37,6 +37,15 @@ public class WaveManager : MonoBehaviour
     public WavePhase currentPhase;
     public PlayerStats stats;
 
+
+
+    [Header("Wave Voice Lines")]
+    public AudioSource VoiceAudioSource;
+    public AudioClip Wave2Voice;
+    public AudioClip Wave3Voice;
+    public AudioClip Wave4Voice;
+    public AudioClip Wave5Voice;
+
     public float CurrentPhaseTime { get; private set; }
     public int CurrentEnemies { get; private set; }
     public int MaxEnemies { get; private set; }
@@ -53,8 +62,41 @@ public class WaveManager : MonoBehaviour
         StartWave();
     }
 
+    private void PlayWaveVoiceLine(int wave)
+    {
+        if (VoiceAudioSource == null)
+            return;
+
+        AudioClip clip = null;
+
+        switch (wave)
+        {
+            case 2:
+                clip = Wave2Voice;
+                break;
+
+            case 3:
+                clip = Wave3Voice;
+                break;
+
+            case 4:
+                clip = Wave4Voice;
+                break;
+
+            case 5:
+                clip = Wave5Voice;
+                break;
+        }
+
+        if (clip != null)
+            VoiceAudioSource.PlayOneShot(clip);
+    }
     void StartWave()
     {
+
+
+        PlayWaveVoiceLine(currentWave);
+
         if (currentWave > Waves.Length)
         {
             Debug.Log("ALL WAVES COMPLETED!");

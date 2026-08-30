@@ -3,7 +3,14 @@ using UnityEngine.AI;
 
 public class EnemyAi : MonoBehaviour
 {
-    public enum EnemyType { Slime, Wolf, Goblin, Skeleton }
+    public enum EnemyType
+    {
+        Slime,
+        Wolf,
+        Goblin,
+        Skeleton
+    }
+
     [Header("Enemy Type")]
     public EnemyType enemyType;
 
@@ -25,6 +32,7 @@ public class EnemyAi : MonoBehaviour
     [Header("Attacking")]
     public float TimeBetweenAttacks;
     bool AlreadyAtacked;
+    public int AttackDamage = 10;
 
     [Header("States")]
     public float SightRange, AttackRange;
@@ -41,24 +49,30 @@ public class EnemyAi : MonoBehaviour
         GameObject playerObj = GameObject.Find("PlayerObj");
 
         if (playerObj != null)
-        {
             Player = playerObj.transform;
-        }
     }
 
     void Update()
     {
-        if (agent == null) return;
+        if (agent == null)
+            return;
 
         CheckIfPlayerInRange();
-
-
     }
 
     public void CheckIfPlayerInRange()
     {
-        PlayerInSightRange = Physics.CheckSphere(transform.position, SightRange, WhatIsPlayer);
-        PlayerInAttackRange = Physics.CheckSphere(transform.position, AttackRange, WhatIsPlayer);
+        PlayerInSightRange = Physics.CheckSphere(
+            transform.position,
+            SightRange,
+            WhatIsPlayer
+        );
+
+        PlayerInAttackRange = Physics.CheckSphere(
+            transform.position,
+            AttackRange,
+            WhatIsPlayer
+        );
 
         if (!PlayerInSightRange && !PlayerInAttackRange)
             Patroling();
@@ -75,14 +89,15 @@ public class EnemyAi : MonoBehaviour
         if (isWaiting)
         {
             idleTimer -= Time.deltaTime;
-            animator.SetTrigger("Idle");
+
+            if (animator != null)
+                animator.SetTrigger("Idle");
 
             agent.SetDestination(transform.position);
 
             if (idleTimer <= 0f)
-            {
                 isWaiting = false;
-            }
+
             return;
         }
 
@@ -92,44 +107,39 @@ public class EnemyAi : MonoBehaviour
         if (WalkPointSet)
         {
             agent.SetDestination(WalkPoint);
-            animator.SetTrigger("Patroling");
+
+            if (animator != null)
+                animator.SetTrigger("Patroling");
         }
 
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (!agent.pathPending &&
+            agent.remainingDistance <= agent.stoppingDistance)
         {
             WalkPointSet = false;
-            idleTimer = Random.Range(minIdleTime, maxIdleTime);
+            idleTimer = Random.Range(
+                minIdleTime,
+                maxIdleTime
+            );
             isWaiting = true;
         }
     }
 
-
     private bool HaveChasingAnimation(EnemyType Type)
     {
-
-        if (
-            Type == EnemyType.Wolf
-         || Type == EnemyType.Goblin
-         || Type == EnemyType.Skeleton
-
-
-            )
-        {  
-            return true; 
-        }
-        else 
-        { 
-            return false; 
-        }
-             
-        }
-
+        return Type == EnemyType.Wolf ||
+               Type == EnemyType.Goblin ||
+               Type == EnemyType.Skeleton;
+    }
 
     private void Chaseing()
     {
+        if (Player == null)
+            return;
+
         agent.SetDestination(Player.position);
 
-        if (HaveChasingAnimation(enemyType))
+        if (HaveChasingAnimation(enemyType) &&
+            animator != null)
         {
             animator.SetTrigger("Chasing");
         }
@@ -139,18 +149,50 @@ public class EnemyAi : MonoBehaviour
     {
         agent.SetDestination(transform.position);
 
-        if (!AlreadyAtacked)
-        {
-            Player.GetComponentInParent<PlayerStatus>().TakeDamage(10);
+        if (AlreadyAtacked)
+            return;
 
-            if (animator != null)
-            {
-                animator.SetTrigger("Attack");
-            }
+        FacePlayer();
 
-            AlreadyAtacked = true;
-            Invoke(nameof(ResetAttack), TimeBetweenAttacks);
-        }
+        if (Player == null)
+            return;
+
+        PlayerStatus playerStatus =
+            Player.GetComponentInParent<PlayerStatus>();
+
+        if (playerStatus != null)
+            playerStatus.TakeDamage(AttackDamage);
+
+        AlreadyAtacked = true;
+
+        Invoke(nameof(ResetAttack), TimeBetweenAttacks);
+
+        if (animator != null)
+            animator.SetTrigger("Attack");
+    }
+    public void AttackFinished()
+    {
+        AlreadyAtacked = false;
+    }
+
+    private void FacePlayer()
+    {
+        if (Player == null)
+            return;
+
+        Vector3 direction =
+            Player.position -
+            transform.position;
+
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude <= 0.001f)
+            return;
+
+        transform.rotation =
+            Quaternion.LookRotation(
+                direction.normalized
+            );
     }
 
     private void ResetAttack()
@@ -160,16 +202,31 @@ public class EnemyAi : MonoBehaviour
 
     private void GetWalkPoint()
     {
-        float randomZ = Random.Range(-WalkRange, WalkRange);
-        float randomX = Random.Range(-WalkRange, WalkRange);
+        float randomZ =
+            Random.Range(
+                -WalkRange,
+                WalkRange
+            );
 
-        Vector3 targetPoint = new Vector3(
-            transform.position.x + randomX,
-            transform.position.y + 10f,
-            transform.position.z + randomZ
-        );
+        float randomX =
+            Random.Range(
+                -WalkRange,
+                WalkRange
+            );
 
-        if (Physics.Raycast(targetPoint, Vector3.down, out RaycastHit hit, 20f, WhatIsGround))
+        Vector3 targetPoint =
+            new Vector3(
+                transform.position.x + randomX,
+                transform.position.y + 10f,
+                transform.position.z + randomZ
+            );
+
+        if (Physics.Raycast(
+            targetPoint,
+            Vector3.down,
+            out RaycastHit hit,
+            20f,
+            WhatIsGround))
         {
             WalkPoint = hit.point;
             WalkPointSet = true;
@@ -179,9 +236,18 @@ public class EnemyAi : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, SightRange);
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            SightRange
+        );
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, AttackRange);
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            AttackRange
+        );
     }
 }
+

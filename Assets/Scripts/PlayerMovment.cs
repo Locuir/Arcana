@@ -57,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetInteger("WeaponType", 1);
         maxCombo = 6;
+
+        Debug.Log("[COMBO] PlayerMovement Started | MaxCombo = " + maxCombo);
     }
 
     void Update()
@@ -66,15 +68,28 @@ public class PlayerMovement : MonoBehaviour
         if (mainCamera == null)
             mainCamera = Camera.main;
 
-        HandleAttackInput();
-        HandleMovement();
-        HandleJump(grounded);
+        if (canMove)
+        {
+            HandleAttackInput();
+            HandleMovement();
+            HandleJump(grounded);
+            HandleCrouch();
+        }
+        else
+        {
+            moveDirection.x = 0f;
+            moveDirection.z = 0f;
+
+            animator.SetFloat("Velx", 0f);
+            animator.SetFloat("Vely", 0f);
+            animator.SetBool("Moving", false);
+            animator.SetFloat("Speed", 0f);
+        }
+
         HandleGravity(grounded);
-        HandleCrouch();
         HandleCharacterMovement();
         HandleLanding();
     }
-
     void HandleAttackInput()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && canMove)
@@ -93,15 +108,15 @@ public class PlayerMovement : MonoBehaviour
 
                 if (currentBowString != null)
                     currentBowString.LoadBow(0.3f);
-                    AudioManager.Instance.PlayBowLoad();
 
+                AudioManager.Instance.PlayBowLoad();
             }
             else
             {
+                Debug.Log("[COMBO] Mouse0 Down → Attack()");
                 Attack();
             }
         }
-
 
         if (Input.GetKeyUp(KeyCode.Mouse0) && canMove)
         {
@@ -112,7 +127,8 @@ public class PlayerMovement : MonoBehaviour
 
                 if (currentBowString != null)
                     currentBowString.ShootBow(0.1f);
-                    AudioManager.Instance.PlayBowRelease();
+
+                AudioManager.Instance.PlayBowRelease();
             }
         }
     }
@@ -326,7 +342,6 @@ public class PlayerMovement : MonoBehaviour
         );
     }
 
-
     void HandleLanding()
     {
         bool grounded =
@@ -337,8 +352,6 @@ public class PlayerMovement : MonoBehaviour
             if (headCoroutine != null)
                 StopCoroutine(headCoroutine);
 
-            // Re-apply the current movement state immediately
-            // after landing so holding W continues into locomotion.
             bool isMoving =
                 animator.GetBool("Moving");
 
@@ -368,14 +381,28 @@ public class PlayerMovement : MonoBehaviour
 
     public void Attack()
     {
+        Debug.Log(
+            "[COMBO] Attack() | isAttacking=" +
+            isAttacking +
+            " | comboQueued=" +
+            comboQueued +
+            " | attackIndex=" +
+            attackIndex
+        );
+
         if (!isAttacking)
         {
             if (!staminaSystem.UseStamina(20f))
+            {
+                Debug.Log("[COMBO] Attack BLOCKED → Not enough stamina");
                 return;
+            }
 
             isAttacking = true;
             comboQueued = false;
             attackIndex = 1;
+
+            Debug.Log("[COMBO] START ATTACK → Attack1");
 
             ResetAttackTriggers();
             animator.SetTrigger("Attack1");
@@ -386,25 +413,63 @@ public class PlayerMovement : MonoBehaviour
         if (attackIndex < maxCombo)
         {
             comboQueued = true;
+
+            Debug.Log(
+                "[COMBO] INPUT QUEUED | Current Attack = " +
+                attackIndex +
+                " | Next Attack = " +
+                (attackIndex + 1)
+            );
+        }
+        else
+        {
+            Debug.Log(
+                "[COMBO] INPUT IGNORED → Max combo reached | attackIndex=" +
+                attackIndex
+            );
         }
     }
 
     public void ComboCheck()
     {
+        Debug.Log(
+            "[COMBO] ComboCheck() CALLED | isAttacking=" +
+            isAttacking +
+            " | comboQueued=" +
+            comboQueued +
+            " | attackIndex=" +
+            attackIndex +
+            " | maxCombo=" +
+            maxCombo
+        );
+
         if (!comboQueued || attackIndex >= maxCombo)
         {
+            Debug.Log(
+                "[COMBO] ComboCheck → END ATTACK | comboQueued=" +
+                comboQueued +
+                " | attackIndex=" +
+                attackIndex
+            );
+
             EndAttack();
             return;
         }
 
         if (!staminaSystem.UseStamina(20f))
         {
+            Debug.Log("[COMBO] ComboCheck → END ATTACK | Not enough stamina");
             EndAttack();
             return;
         }
 
         comboQueued = false;
         attackIndex++;
+
+        Debug.Log(
+            "[COMBO] NEXT ATTACK → Attack" +
+            attackIndex
+        );
 
         ResetAttackTriggers();
 
@@ -415,6 +480,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void EndAttack()
     {
+        Debug.Log(
+            "[COMBO] EndAttack() | Final attackIndex=" +
+            attackIndex +
+            " | comboQueued=" +
+            comboQueued
+        );
+
         isAttacking = false;
         comboQueued = false;
         attackIndex = 0;
@@ -422,6 +494,11 @@ public class PlayerMovement : MonoBehaviour
         ResetAttackTriggers();
 
         animator.Play("Idle");
+    }
+
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
     }
 
     private void ResetAttackTriggers()
@@ -434,3 +511,4 @@ public class PlayerMovement : MonoBehaviour
         animator.ResetTrigger("Attack6");
     }
 }
+
