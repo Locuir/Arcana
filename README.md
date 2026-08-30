@@ -84,6 +84,13 @@ Examples include:
 
 Skills have individual cooldowns, making timing an important part of combat.
 
+## Known Issues
+- you need to open inventory twice for weapon to appear
+- enemies health stuck after 3rd attack when unarmed
+- if you open inventory when jumping you stuck at air
+
+this issues will be patched next patch
+
 
 ## Gameplay Loop
 
