@@ -17,7 +17,7 @@ public class TitleScreenManager : MonoBehaviour
 
     public void SkipTutorial()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("IntroScene");
     }
 
     public void Tutorial()

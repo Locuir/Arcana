@@ -97,12 +97,6 @@ public class WaveManager : MonoBehaviour
 
         PlayWaveVoiceLine(currentWave);
 
-        if (currentWave > Waves.Length)
-        {
-            Debug.Log("ALL WAVES COMPLETED!");
-            return;
-        }
-
         waveCompleted = false;
         currentPhase = WavePhase.KillMonsters;
 
@@ -117,12 +111,7 @@ public class WaveManager : MonoBehaviour
 
         CurrentEnemies = MaxEnemies;
 
-        Debug.Log(
-            "WAVE " +
-            currentWave +
-            " STARTED | ENEMIES: " +
-            CurrentEnemies
-        );
+
 
         if (MusicManager.Instance != null)
         {
@@ -138,9 +127,7 @@ public class WaveManager : MonoBehaviour
             FindObjectOfType<MonsterSpawner>();
 
         if (spawner == null)
-        {
-            Debug.LogError("MONSTER SPAWNER NOT FOUND!");
-            return;
+        {            return;
         }
 
         spawner.SpawnWave(wave.Enemies);
@@ -156,10 +143,7 @@ public class WaveManager : MonoBehaviour
         if (CurrentEnemies < 0)
             CurrentEnemies = 0;
 
-        Debug.Log(
-            "ENEMY KILLED | REMAINING: " +
-            CurrentEnemies
-        );
+
 
         if (CurrentEnemies == 0)
         {
@@ -174,17 +158,19 @@ public class WaveManager : MonoBehaviour
 
         waveCompleted = true;
 
-        Debug.Log(
-            "WAVE " +
-            currentWave +
-            " COMPLETED!"
-        );
+
 
         stats.AddEXP(300);
 
+        if (currentWave >= 8)
+        {
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Ending");
+            return;
+        }
+
         StartCoroutine(PreparePhase());
     }
-
     IEnumerator PreparePhase()
     {
         currentPhase =
@@ -193,7 +179,6 @@ public class WaveManager : MonoBehaviour
         CurrentPhaseTime =
             prepareTime;
 
-        Debug.Log("PREPARE YOUR LOADOUT");
 
         if (MusicManager.Instance != null)
             MusicManager.Instance.PlayPrepare();
@@ -216,15 +201,9 @@ public class WaveManager : MonoBehaviour
 
         currentWave++;
 
-        Debug.Log(
-            "NEXT WAVE → " +
-            currentWave
-        );
 
         if (currentWave > Waves.Length)
-        {
-            Debug.Log("ALL WAVES COMPLETED!");
-            return;
+        {            return;
         }
 
         StartWave();

@@ -303,8 +303,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17198147}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13575356, y: -0.42140365, z: -0.044846334, w: -0.89553267}
-  m_LocalPosition: {x: 11.4853525, y: 6.3297606, z: -49.1105}
+  m_LocalRotation: {x: -0.19851281, y: -0.27051908, z: 0.025041714, w: 0.94169265}
+  m_LocalPosition: {x: 14.29453, y: 6.7064986, z: -19.768364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3296,8 +3296,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 277214807}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.016086392, y: 0.68913496, z: -0.015309316, w: -0.7242927}
-  m_LocalPosition: {x: 2.286831, y: 0.61777234, z: 14.728834}
+  m_LocalRotation: {x: 0.15060677, y: 0.13388231, z: -0.019109719, w: 0.9792997}
+  m_LocalPosition: {x: 14.082241, y: -2.140149, z: 46.456375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14597,7 +14597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1438546959266459337, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9
+      value: -1.01
       objectReference: {fileID: 0}
     - target: {fileID: 1438546959266459337, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
       propertyPath: m_LocalPosition.z
@@ -18744,27 +18744,20 @@ MonoBehaviour:
     - EnemyPrefab: {fileID: 7024385025925218318, guid: a8e1b979c9eee784fac6fa5f38a9d4e1, type: 3}
       Amount: 2
     - EnemyPrefab: {fileID: 7024385025925218318, guid: bd8d31bf1b09adb40b9107e90f8507c2, type: 3}
-      Amount: 10
+      Amount: 5
     - EnemyPrefab: {fileID: 7024385025925218318, guid: 4d1a0ee2e663af84d90c6b9138942e06, type: 3}
-      Amount: 10
+      Amount: 5
   - Enemies:
     - EnemyPrefab: {fileID: 7024385025925218318, guid: ad3e7b9710501d846be37014c61ca49e, type: 3}
-      Amount: 13
+      Amount: 1
     - EnemyPrefab: {fileID: 7024385025925218318, guid: a8e1b979c9eee784fac6fa5f38a9d4e1, type: 3}
-      Amount: 10
+      Amount: 0
     - EnemyPrefab: {fileID: 7024385025925218318, guid: bd8d31bf1b09adb40b9107e90f8507c2, type: 3}
-      Amount: 10
+      Amount: 0
     - EnemyPrefab: {fileID: 7024385025925218318, guid: 4d1a0ee2e663af84d90c6b9138942e06, type: 3}
-      Amount: 10
-  - Enemies:
-    - EnemyPrefab: {fileID: 7024385025925218318, guid: ad3e7b9710501d846be37014c61ca49e, type: 3}
-      Amount: 10
-    - EnemyPrefab: {fileID: 7024385025925218318, guid: a8e1b979c9eee784fac6fa5f38a9d4e1, type: 3}
-      Amount: 2
-    - EnemyPrefab: {fileID: 7024385025925218318, guid: bd8d31bf1b09adb40b9107e90f8507c2, type: 3}
-      Amount: 2
-    - EnemyPrefab: {fileID: 7024385025925218318, guid: 4d1a0ee2e663af84d90c6b9138942e06, type: 3}
-      Amount: 15
+      Amount: 0
+    - EnemyPrefab: {fileID: 6953642278273581067, guid: 0e82a6c53217a5f4ea0ca8631dc8ffad, type: 3}
+      Amount: 0
   currentWave: 1
   prepareTime: 10
   currentPhase: 0
@@ -23613,8 +23606,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834486490}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13575353, y: -0.42140365, z: -0.044846322, w: -0.89553267}
-  m_LocalPosition: {x: 11.4853525, y: 6.3297606, z: -49.1105}
+  m_LocalRotation: {x: -0.1985128, y: -0.27051908, z: 0.025041722, w: 0.9416927}
+  m_LocalPosition: {x: 14.29453, y: 6.7064986, z: -19.768364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26251,8 +26244,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995562727}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.46248645, z: -0, w: 0.88662636}
-  m_LocalPosition: {x: 50.15, y: 8.82, z: 26.08}
+  m_LocalRotation: {x: -0.054511257, y: -0.5008495, z: 0.030301813, w: -0.86328447}
+  m_LocalPosition: {x: 21.82, y: 9.933, z: 28.584538}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26260,7 +26253,7 @@ Transform:
   - {fileID: 482579222}
   - {fileID: 1355045750}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -55.095, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 80.989, z: 0}
 --- !u!114 &1995562730
 MonoBehaviour:
   m_ObjectHideFlags: 0

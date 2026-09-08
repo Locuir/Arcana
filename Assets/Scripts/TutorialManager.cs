@@ -67,6 +67,6 @@ public class TutorialManager : MonoBehaviour
 
     private void StartGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("IntroScene");
     }
 }
