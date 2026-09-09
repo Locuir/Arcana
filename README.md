@@ -14,34 +14,32 @@ The game was developed using Unity and C#. I used Unity's Input System for playe
 
 ## Core Features
 
-- Wave-based combat
-- Multiple enemy types and behaviors
-- Melee and ranged weapons
-- Weapon-specific stat scaling
-- Character leveling and progression
-- Seven upgradeable character stats
-- Skill system with cooldowns
-- Inventory and weapon toolbar
-- Card-based progression
-- Preparation phase between waves
-- Combat VFX and audio
-- Run statistics and rating system
+* Wave combat
+* Different enemies
+* Different weapons
+* Level up system
+* Upgrade stats
+* Use skills
+* Inventory
+* Cards
+* Prepare between waves
+* VFX and sounds
+* Run stats
 
 ## Character Progression
 
-Players can invest points into seven core attributes:
 
-| Stat | Purpose |
-|------|---------|
-| Vigor | Increases maximum health |
-| Endurance | Increases stamina |
-| Strength | Improves strength-based weapon damage |
-| Dexterity | Improves dexterity-based damage, critical chance, and attack speed |
-| Luck | Improves critical chance |
-| Faith | Improves skill power |
-| Vitality | Improves physical defense |
+| Stat      | Effect                                     |
+| --------- | ------------------------------------------ |
+| Vigor     | More health                                |
+| Endurance | More stamina                               |
+| Strength  | More strength damage                       |
+| Dexterity | More damage, crit chance, and attack speed |
+| Luck      | More crit chance                           |
+| Faith     | More skill power                           |
+| Vitality  | More defense                               |
 
-Weapons scale with different attributes, allowing players to specialize their character around their preferred playstyle.
+
 
 ## Controls
 
