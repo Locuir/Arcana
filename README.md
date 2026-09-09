@@ -11,20 +11,20 @@ You can upgrade your stats, collect cards, use different weapons, and use 10 dif
 ## **Technologies Used**
 The game was developed using Unity and C#. I used Unity's Input System for player controls, NavMesh for enemy movement and AI, Animator for character animations, and ScriptableObjects for managing things like weapons, cards, and skills.
 
+## How To Download
+You can download the lateset game release form the game page on itch.io
 
-## Core Features
+[![Download](https://github.com/user-attachments/assets/9485f8ed-8c75-4e38-83b7-f91450333ad2)](https://locuir0.itch.io/arcana)
+
+
+## Features
 
 * Wave combat
-* Different enemies
-* Different weapons
 * Level up system
 * Upgrade stats
 * Use skills
 * Inventory
 * Cards
-* Prepare between waves
-* VFX and sounds
-* Run stats
 
 ## Character Progression
 
