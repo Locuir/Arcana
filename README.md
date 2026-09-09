@@ -1,5 +1,8 @@
 # Arcana
 <img width="1920" height="560" alt="banner wide" src="https://github.com/user-attachments/assets/397c7ae1-fe0f-400c-afce-35f307ecf65f" />
+
+
+
 ## Overview
 
 The game is a wave-based game where you are stranded on a remote island full of monsters, and you need to survive as many waves as you can.
