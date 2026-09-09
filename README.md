@@ -9,7 +9,7 @@ The game is a wave-based game where you are stranded on a remote island full of 
 You can upgrade your stats, collect cards, use different weapons, and use 10 different skills to help you survive.
 
 ## **Technologies Used**
-The game was developed using Unity and C#. I used Unity's Input System for player controls, NavMesh for enemy movement and AI, Animator for character animations, and ScriptableObjects for managing things like weapons, cards, and skills. Git and GitHub were also used for version control.
+The game was developed using Unity and C#. I used Unity's Input System for player controls, NavMesh for enemy movement and AI, Animator for character animations, and ScriptableObjects for managing things like weapons, cards, and skills.
 
 
 ## Core Features
