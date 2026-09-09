@@ -18751,13 +18751,13 @@ MonoBehaviour:
     - EnemyPrefab: {fileID: 7024385025925218318, guid: ad3e7b9710501d846be37014c61ca49e, type: 3}
       Amount: 1
     - EnemyPrefab: {fileID: 7024385025925218318, guid: a8e1b979c9eee784fac6fa5f38a9d4e1, type: 3}
-      Amount: 0
+      Amount: 1
     - EnemyPrefab: {fileID: 7024385025925218318, guid: bd8d31bf1b09adb40b9107e90f8507c2, type: 3}
-      Amount: 0
+      Amount: 1
     - EnemyPrefab: {fileID: 7024385025925218318, guid: 4d1a0ee2e663af84d90c6b9138942e06, type: 3}
-      Amount: 0
+      Amount: 1
     - EnemyPrefab: {fileID: 6953642278273581067, guid: 0e82a6c53217a5f4ea0ca8631dc8ffad, type: 3}
-      Amount: 0
+      Amount: 1
   currentWave: 1
   prepareTime: 10
   currentPhase: 0
